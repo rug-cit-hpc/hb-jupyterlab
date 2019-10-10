@@ -3,6 +3,6 @@ name: Jupyter Notebook
 category: Interactive Apps
 subcategory: Servers
 role: batch_connect
-description: "This app will launch a Jupyter Notebook server on one or more nodes.\r\n\r\n**Make
+description: "This app will launch a Jupyter Notebook server a Peregrine node.\r\n\r\n**Make
   sure you add the following line to your** `.bashrc` **file, otherwise it will not
   work:**\r\n\r\n```unset XDG_RUNTIME_DIR```"
