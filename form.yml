@@ -25,11 +25,28 @@ attributes:
   #     modules: "python/3.5"
   # @example Using combination of modules
   #     modules: "python/3.5 cuda/8.0.44"
-  modules: "Python/3.6.4-fosscuda-2018a"
+  modules: "Anaconda3/5.3.0"
 
   # Any extra command line arguments to feed to the `jupyter notebook ...`
   # command that launches the Jupyter notebook within the batch job
   extra_jupyter_args: ""
+  custom_queue:
+    label: Partition
+    help: Please select a partition from the drop-down.
+    widget: select
+    options:
+      - [ "Regular", "regular" ]
+      - [ "GPU", "gpu" ]
+      - [ "High memory", "himem" ]
+    #   - [ "Short", "short" ]
+    
+  bc_num_slots:
+    label: Number of Cores
+    help: Select number of cores on a single node
+    
+#   bc_num_cores:
+#     label: Number of Cores
+#     help: 
 
 # All of the attributes that make up the Dashboard form (in respective order),
 # and made available to the submit configuration file and the template ERB
@@ -43,8 +60,8 @@ attributes:
 form:
   - modules
   - extra_jupyter_args
-  - bc_account
-  - bc_queue
+#   - bc_account
+  - custom_queue
   - bc_num_hours
   - bc_num_slots
-  - bc_email_on_started
+#   - bc_email_on_started
