@@ -30,6 +30,7 @@ attributes:
   # Any extra command line arguments to feed to the `jupyter notebook ...`
   # command that launches the Jupyter notebook within the batch job
   extra_jupyter_args: ""
+  node_type: 'gpu'
   custom_queue:
     label: Partition
     help: Please select a partition from the drop-down.
@@ -60,6 +61,7 @@ attributes:
 form:
   - modules
   - extra_jupyter_args
+  - node_type
 #   - bc_account
   - custom_queue
   - bc_num_hours
