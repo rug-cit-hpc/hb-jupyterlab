@@ -1,69 +1,54 @@
-# Batch Connect app configuration file
-#
-# @note Used to define the submitted cluster, title, description, and
-#   hard-coded/user-defined attributes that make up this Batch Connect app.
 ---
-
-# **MUST** set cluster id here that matches cluster configuration file located
-# under /etc/ood/config/clusters.d/*.yml
-# @example Use the Owens cluster at Ohio Supercomputer Center
-#     cluster: "owens"
 cluster: "peregrine"
 
-# Define attribute values that aren't meant to be modified by the user within
-# the Dashboard form
-attributes:
-  # Set the corresponding modules that need to be loaded for Jupyter to run
-  #
-  # @note It is called within the batch job as `module load <modules>` if
-  #   defined
-  # @example Do not load any modules
-  #     modules: ""
-  # @example Using default python module
-  #     modules: "python"
-  # @example Using specific python module
-  #     modules: "python/3.5"
-  # @example Using combination of modules
-  #     modules: "python/3.5 cuda/8.0.44"
-  modules: "Anaconda3/5.3.0"
+form:
+  - modules
+  - extra_jupyter_args
+  - node_type
+  - cuda_version
+  - python_version
+  - custom_queue
+  - bc_num_hours
+  - bc_num_slots
+  - version
+  - jupyterlab_switch
 
-  # Any extra command line arguments to feed to the `jupyter notebook ...`
-  # command that launches the Jupyter notebook within the batch job
+attributes:
+  modules: "Anaconda3/5.3.0"
   extra_jupyter_args: ""
   node_type: 'gpu'
   custom_queue:
     label: Partition
-    help: Please select a partition from the drop-down.
+    help: Please select a partition from the drop-down menu.
     widget: select
     options:
       - [ "Regular", "regular" ]
       - [ "GPU", "gpu" ]
       - [ "High memory", "himem" ]
-    #   - [ "Short", "short" ]
-    
   bc_num_slots:
     label: Number of Cores
     help: Select number of cores on a single node
-    
+  cuda_version:
+    widget: "select"
+    label: "CUDA Version"
+    help: |
+      CUDA is Nvidia's GPU-specific parallel computing framework. A GPU node
+      is required to make use of this functionality.
+    options:
+      - [ "CUDA/10.1.105", "CUDA/10.1.105-GCC-8.2.0-2.31.1" ]
+  python_version:
+    widget: "select"
+    label: "Python Version"
+    help: |
+      Select one of the Python versions from the dropdown.
+
+      **If you select a CUDA version, you also need to specify the GPU partition.**
+    options:
+      - [ "Python 3.6.4", "Python/3.6.4-foss-2018a" ]
+      - [ "Python 3.6.4 CUDA", "Python/3.6.4-fosscuda-2018a" ]
+  version: "jupyter/Python3.6"
+  jupyterlab_switch: 0
 #   bc_num_cores:
 #     label: Number of Cores
 #     help: 
 
-# All of the attributes that make up the Dashboard form (in respective order),
-# and made available to the submit configuration file and the template ERB
-# files
-#
-# @note You typically do not need to modify this unless you want to add a new
-#   configurable value
-# @note If an attribute listed below is hard-coded above in the `attributes`
-#   option, then it will not appear in the form page that the user sees in the
-#   Dashboard
-form:
-  - modules
-  - extra_jupyter_args
-  - node_type
-#   - bc_account
-  - custom_queue
-  - bc_num_hours
-  - bc_num_slots
-#   - bc_email_on_started
