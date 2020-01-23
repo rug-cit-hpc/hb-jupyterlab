@@ -6,37 +6,59 @@ form:
   - extra_jupyter_args
   - node_type
   - cuda_version
-  - python_version
+#  - python_version
   - custom_queue
   - bc_num_hours
   - bc_num_slots
   - version
   - jupyterlab_switch
+#   - virtual_envs
+  - memory
 
 attributes:
-  modules: "Anaconda3/5.3.0"
+  memory:
+    label: Memory
+    help: Amount of memory requested, in MB
+    widget: 'number_field'
+    value: 2000
+    min: 1
+    max: 128000
+    step: 1
+#  modules: "IPython/6.4.0-foss-2018a-Python-3.6.4"
   extra_jupyter_args: ""
   node_type: 'gpu'
+
+#   virtual_envs:
+#     widget: 'select'
+#     label: Virtualenvs
+#     help: Select your virtual environment
+#     options:
+#       - [ "KVI", "KVI" ]
+#       - [ "KVI-GPU", "KVI-GPU" ]
+
   custom_queue:
     label: Partition
     help: Please select a partition from the drop-down menu.
     widget: select
     options:
-      - [ "Regular", "regular" ]
-      - [ "GPU", "gpu" ]
-      - [ "High memory", "himem" ]
+     - [ "Regular", "regular" ]
+     - [ "GPU", "gpu" ]
+     - [ "High memory", "himem" ]
+  
+#   custom_queue: 'regular'
   bc_num_slots:
     label: Number of Cores
     help: Select number of cores on a single node
-  cuda_version:
-    widget: "select"
-    label: "CUDA Version"
-    help: |
-      CUDA is Nvidia's GPU-specific parallel computing framework. A GPU node
-      is required to make use of this functionality.
-    options:
-      - [ "CUDA/10.1.105", "CUDA/10.1.105-GCC-8.2.0-2.31.1" ]
-  python_version:
+#  cuda_version:
+#    widget: "select"
+#    label: "CUDA Version"
+#    help: |
+#      CUDA is Nvidia's GPU-specific parallel computing framework. A GPU node
+#      is required to make use of this functionality.
+#    options:
+#      - [ "CUDA/10.1.105", "CUDA/10.1.105-GCC-8.2.0-2.31.1" ]
+  cuda_version: "CUDA/10.1.105-GCC-8.2.0-2.31.1"
+  modules:
     widget: "select"
     label: "Python Version"
     help: |
@@ -44,9 +66,14 @@ attributes:
 
       **If you select a CUDA version, you also need to specify the GPU partition.**
     options:
-      - [ "Python 3.6.4", "Python/3.6.4-foss-2018a" ]
-      - [ "Python 3.6.4 CUDA", "Python/3.6.4-fosscuda-2018a" ]
-  version: "jupyter/Python3.6"
+      - [ "Python 3.6.4", "IPython/6.4.0-foss-2018a-Python-3.6.4" ]
+      - [ "Python 3.6.4 CUDA", "IPython/6.4.0-foss-2018a-Python-3.6.4 TensorFlow/1.12.0-fosscuda-2018a-Python-3.6.4" ]
+    #   - [ "Python 3.7.2", "Python/3.7.2-GCCcore-8.2.0"]
+      - [ "Python 3.7.2", "IPython/7.7.0-foss-2019a-Python-3.7.2 TensorFlow/2.0.0-foss-2019a-Python-3.7.2" ]
+    #   - [ "Python 3.7.2 CUDA", "Python/3.7.2-fosscuda-2018a" ]
+      - [ "R 3.6.1", "R/3.6.1-foss-2018a IPython/6.4.0-foss-2018a-Python-3.6.4 Pandoc/2.5" ]
+#  modules: python_version
+  version: "jupyter/Python3.7"
   jupyterlab_switch: 0
 #   bc_num_cores:
 #     label: Number of Cores
