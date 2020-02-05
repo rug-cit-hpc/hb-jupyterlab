@@ -19,9 +19,9 @@ attributes:
     label: Memory
     help: Amount of memory requested, in GB
     widget: 'number_field'
-    value: 2000
+    value: 2
     min: 1
-    max: 128000
+    max: 128
     step: 1
 #  modules: "IPython/6.4.0-foss-2018a-Python-3.6.4"
   extra_jupyter_args: ""
