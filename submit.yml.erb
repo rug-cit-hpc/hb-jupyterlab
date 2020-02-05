@@ -3,11 +3,11 @@
 batch_connect:
   template: "basic"
 script:
-  queue_name: <%= custom_queue %>
+  queue_name: <%= custom_queue.blank? ? "regular" : custom_queue.strip %>
   native:
     - "--gres"
     - "<%= if custom_queue == 'gpu' then 'gpu:1' else '' end %>"
     - "-c"
     - "<%= bc_num_slots.blank? ? 1 : bc_num_slots.to_i %>"
     - "--mem"
-    - "<%= memory %>"
+    - "<%= memory.blank? ? 2000 : memory.to_i * 1000 %>"

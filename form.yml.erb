@@ -1,3 +1,18 @@
+<%-
+  cmd = "sinfo -ho %R"
+  begin
+    output, status = Open3.capture2e(cmd)
+    if status.success?
+      partitions = output.split("\n").map(&:strip).reject(&:blank?).sort
+    else
+      raise output
+    end
+  rescue => e
+    partitions = []
+    error = e.message.strip
+  end
+-%>
+
 ---
 cluster: "peregrine"
 
@@ -30,12 +45,16 @@ attributes:
   custom_queue:
     label: Partition
     help: Please select a partition from the drop-down menu.
+  <%- if partitions.blank? -%>
+    widget: text_field
+  <%- else -%>
     widget: select
     options:
-     - [ "Regular", "regular" ]
-     - [ "GPU", "gpu" ]
-     - [ "High memory", "himem" ]
-  
+    <%- partitions.each do |q| -%>
+      - [ "<%= q %>", "<%= q %>" ]
+    <%- end -%>
+  <%- end -%>
+
   bc_num_slots:
     label: Number of Cores
     help: Select number of cores on a single node
