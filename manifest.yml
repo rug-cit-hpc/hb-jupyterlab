@@ -5,5 +5,7 @@ subcategory: Servers
 role: batch_connect
 description: "This app will launch a Jupyter Notebook server on a Peregrine node.\r\n\r\n**Make
   sure you add the following line to your** `.bashrc` **file, otherwise it will not
-  work:**\r\n\r\n```unset XDG_RUNTIME_DIR```"
+  work:**\r\n\r\n```unset XDG_RUNTIME_DIR```\r\n\r\nFor more information, please visit
+  the wiki page for this app."
 version: 0.1
+icon: ''
