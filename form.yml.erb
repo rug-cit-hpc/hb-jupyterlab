@@ -13,6 +13,17 @@
   end
 -%>
 
+<%-
+    paths = []
+    paths << Pathname.new("/home/#{User.new.name}")
+    paths << Pathname.new("/data/#{User.new.name}")
+    paths << Pathname.new("/scratch/#{User.new.name}")
+
+    projects = User.new.groups.map(&:name).grep(/^pg-./)
+
+    paths.concat projects.map { |p| Pathname.new("/data/#{p}")  }
+-%>
+
 ---
 cluster: "peregrine"
 
@@ -28,6 +39,7 @@ form:
   - version
   - jupyterlab_switch
   - memory
+  - start_folder
 
 attributes:
   memory:
@@ -54,6 +66,20 @@ attributes:
       - [ "<%= q %>", "<%= q %>" ]
     <%- end -%>
   <%- end -%>
+  
+  start_folder:
+    label: Notebook root folder
+    help: Where should the jupyter server start?
+  <%- if paths.blank? -%>
+    widget: text_field
+  <%- else -%>
+    widget: select
+    options:
+    <%- paths.each do |q| -%>
+      - [ "<%= q %>", "<%= q %>" ]
+    <%- end -%>
+  <%- end -%>
+    
 
   bc_num_slots:
     label: Number of Cores

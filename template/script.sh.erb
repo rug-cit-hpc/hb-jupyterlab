@@ -94,7 +94,8 @@ module list
 echo "TTT - $(date)"
 
 # Set working directory to notebook root directory
-cd "${NOTEBOOK_ROOT}"
+cd "<%- context.start_folder -%>"
+#"${NOTEBOOK_ROOT}"
 echo ${PWD}
 
 # List available kernels for debugging purposes
