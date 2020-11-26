@@ -56,12 +56,12 @@ attributes:
 
       **If you select a CUDA version, you also need to specify the GPU partition.**
     options:
-      - [ "Python 3.6.4", "IPython/6.4.0-foss-2018a-Python-3.6.4" ]
-      - [ "Python 3.6.4 CUDA", "IPython/6.4.0-foss-2018a-Python-3.6.4 TensorFlow/1.12.0-fosscuda-2018a-Python-3.6.4" ]
-    #   - [ "Python 3.7.2", "Python/3.7.2-GCCcore-8.2.0"]
-      - [ "Python 3.7.2", "IPython/7.7.0-foss-2019a-Python-3.7.2 TensorFlow/2.0.0-foss-2019a-Python-3.7.2" ]
-    #   - [ "Python 3.7.2 CUDA", "Python/3.7.2-fosscuda-2018a" ]
-      - [ "R 3.6.1", "R/3.6.1-foss-2018a IPython/6.4.0-foss-2018a-Python-3.6.4 Pandoc/2.5" ]
+      - [ "Python 3.7.4", "JupyterLab/1.2.5-foss-2019b-Python-3.7.4" ]
+      - [ "Python 3.7.4 CUDA", "JupyterLab/1.2.5-fosscuda-2019b-Python-3.7.4" ]
   version: "jupyter/Python3.7"
-  jupyterlab_switch: 0
-
+  jupyterlab_switch:
+    widget: "check_box"
+    value: 1
+    label: Use JupyterLab instead of Jupyter Notebook?
+    help: |
+      JupyterLab is the next generation of Jupyter with an IDE-like experience, and is completely compatible with existing Jupyter Notebooks.
