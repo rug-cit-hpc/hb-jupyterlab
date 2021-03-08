@@ -105,5 +105,6 @@ jupyter kernelspec list
 echo "TTT - $(date)"
 
 # Launch the Jupyter server
+echo $JUPYTER_CONFIG_PATH
 set -x
 jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}"
