@@ -52,7 +52,7 @@ attributes:
     max: 128
     step: 1
 #  modules: "IPython/6.4.0-foss-2018a-Python-3.6.4"
-  extra_jupyter_args: ""
+  extra_jupyter_args: "" # "--app-dir='/home/p233780/.local/jupyterlab'"
   node_type: 'gpu'
 
   custom_queue:
@@ -107,8 +107,8 @@ attributes:
 
       **If you select a GPU version, you also need to specify the GPU partition.**
     options:
-      - [ "Python 3.7.4", "JupyterLab/1.2.5-foss-2019b-Python-3.7.4" ]
-      - [ "Python 3.7.4 CUDA", "JupyterLab/1.2.5-fosscuda-2019b-Python-3.7.4" ]
+      - [ "Python 3.7.4", "JupyterLab/1.2.5-foss-2019b-Python-3.7.4 nodejs/12.16.1-GCCcore-8.3.0" ]
+      - [ "Python 3.7.4 CUDA", "JupyterLab/1.2.5-fosscuda-2019b-Python-3.7.4 nodejs/12.16.1-GCCcore-8.3.0" ]
   version: "jupyter/Python3.7"
   jupyterlab_switch:
     widget: "check_box"
