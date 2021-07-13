@@ -46,7 +46,7 @@ form:
 attributes:
   wall_time:
     label: Wall time
-    help: "Please give the wall time in the SLURM format, D:HH:MM:SS"
+    help: "Please give the wall time in the SLURM format, D-HH:MM:SS"
     widget: "text_field"
 
   memory:
@@ -94,7 +94,7 @@ attributes:
     help: |
       Number of cores per node.
     min: 1
-    max: 24
+    max: 48
     step: 1
 
 #  cuda_version:
@@ -120,7 +120,7 @@ attributes:
       - [ "Python 3.7.4", "IPython/7.9.0-foss-2019b-Python-3.7.4" ]
       - [ "Python 3.7.4 GPU", "IPython/7.9.0-fosscuda-2019b-Python-3.7.4" ]
       - [ "Python 3.8.2", "IPython/7.15.0-foss-2020a-Python-3.8.2" ]
-    #   - [ "Python 3.7.2 CUDA", "Python/3.7.2-fosscuda-2018a" ]
+      - [ "Python 3.9.5", "IPython/7.18.1-GCCcore-10.3.0" ]
       - [ "R 3.6.1", "R/3.6.1-foss-2018a IPython/6.4.0-foss-2018a-Python-3.6.4 Pandoc/2.5" ]
   version: "jupyter/Python3.7"
   jupyterlab_switch: 0
