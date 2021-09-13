@@ -35,18 +35,30 @@ form:
 #  - python_version
   - custom_queue
   - wall_time
+<<<<<<< HEAD
   - bc_num_slots
+=======
+  - num_cores
+>>>>>>> d9d7131e921a007adc947c2575826d48b2461f26
   - version
   - jupyterlab_switch
   - memory
   - start_folder
   - reservation
+  - bc_email_on_started
 
 attributes:
   wall_time:
+<<<<<<< HEAD
     label: Walltime
     help: "Please give the wall time in the SLURM format, D-HH:MM:SS"
     widget: "text_field"
+=======
+    label: Wall time
+    help: "Please give the wall time in the SLURM format, D-HH:MM:SS"
+    widget: "text_field"
+
+>>>>>>> d9d7131e921a007adc947c2575826d48b2461f26
   memory:
     label: Memory
     help: Amount of memory requested, in GB
@@ -55,8 +67,12 @@ attributes:
     min: 1
     max: 128
     step: 1
+<<<<<<< HEAD
 #  modules: "IPython/6.4.0-foss-2018a-Python-3.6.4"
   extra_jupyter_args: "" # "--app-dir='/home/p233780/.local/jupyterlab'"
+=======
+  extra_jupyter_args: ""
+>>>>>>> d9d7131e921a007adc947c2575826d48b2461f26
   node_type: 'gpu'
 
   custom_queue:
@@ -85,15 +101,17 @@ attributes:
     <%- end -%>
   <%- end -%>
     
-
-  bc_num_slots:
-    label: Number of Cores
-    help: Select number of cores on a single node
-    widget: 'number_field'
-    value: 2
+  num_cores:
+    widget: "number_field"
+    label: "Number of cores"
+    value: 1
+    id: 'num_cores'
+    help: |
+      Number of cores per node.
     min: 1
-    max: 12
+    max: 48
     step: 1
+
 #  cuda_version:
 #    widget: "select"
 #    label: "CUDA Version"
@@ -111,6 +129,7 @@ attributes:
 #
 #      **If you select a GPU version, you also need to specify the GPU partition.**
     options:
+<<<<<<< HEAD
       - [ "Python 3.9.5", "JupyterLab/3.0.16-GCCcore-10.3.0" ]
 #      - [ "Python 3.7.4 CUDA", "JupyterLab/1.2.5-fosscuda-2019b-Python-3.7.4 nodejs/12.16.1-GCCcore-8.3.0" ]
   version: "jupyter/Python3.9"
@@ -120,5 +139,17 @@ attributes:
     label: Use JupyterLab instead of Jupyter Notebook?
     help: |
       JupyterLab is the next generation of Jupyter with an IDE-like experience, and is completely compatible with existing Jupyter Notebooks.
+=======
+      - [ "Python 3.6.4", "IPython/6.4.0-foss-2018a-Python-3.6.4" ]
+      - [ "Python 3.6.4", "IPython/6.4.0-foss-2018a-Python-3.6.4" ]
+      - [ "Python 3.7.2", "IPython/7.7.0-foss-2019a-Python-3.7.2" ]
+      - [ "Python 3.7.4", "IPython/7.9.0-foss-2019b-Python-3.7.4" ]
+      - [ "Python 3.7.4 GPU", "IPython/7.9.0-fosscuda-2019b-Python-3.7.4" ]
+      - [ "Python 3.8.2", "IPython/7.15.0-foss-2020a-Python-3.8.2" ]
+      - [ "Python 3.9.5", "IPython/7.18.1-GCCcore-10.3.0" ]
+      - [ "R 3.6.1", "R/3.6.1-foss-2018a IPython/6.4.0-foss-2018a-Python-3.6.4 Pandoc/2.5" ]
+  version: "jupyter/Python3.7"
+  jupyterlab_switch: 0
+>>>>>>> d9d7131e921a007adc947c2575826d48b2461f26
   reservation: "xdmod-test"
 

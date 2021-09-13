@@ -8,8 +8,12 @@ script:
     - "--gres"
     - "<%= if custom_queue == 'gpu' then 'gpu:1' else '' end %>"
     - "-c"
-    - "<%= bc_num_slots.blank? ? 1 : bc_num_slots.to_i %>"
+    - "<%= num_cores.blank? ? 1 : num_cores.to_i %>"
     - "--mem"
     - "<%= memory.blank? ? 2000 : memory.to_i * 1000 %>"
     - "-t"
+<<<<<<< HEAD
     - "<%= wall_time %>"
+=======
+    - "<%= wall_time %>"
+>>>>>>> d9d7131e921a007adc947c2575826d48b2461f26
