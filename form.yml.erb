@@ -34,7 +34,7 @@ form:
   - cuda_version
 #  - python_version
   - custom_queue
-  - bc_num_hours
+  - wall_time
   - bc_num_slots
   - version
   - jupyterlab_switch
@@ -43,6 +43,10 @@ form:
   - reservation
 
 attributes:
+  wall_time:
+    label: Walltime
+    help: "Please give the wall time in the SLURM format, D-HH:MM:SS"
+    widget: "text_field"
   memory:
     label: Memory
     help: Amount of memory requested, in GB
@@ -102,14 +106,14 @@ attributes:
   modules:
     widget: "select"
     label: "Python Version"
-    help: |
-      Select one of the Python versions from the dropdown.
-
-      **If you select a GPU version, you also need to specify the GPU partition.**
+#    help: |
+#      Select one of the Python versions from the dropdown.
+#
+#      **If you select a GPU version, you also need to specify the GPU partition.**
     options:
-      - [ "Python 3.7.4", "JupyterLab/1.2.5-foss-2019b-Python-3.7.4 nodejs/12.16.1-GCCcore-8.3.0" ]
-      - [ "Python 3.7.4 CUDA", "JupyterLab/1.2.5-fosscuda-2019b-Python-3.7.4 nodejs/12.16.1-GCCcore-8.3.0" ]
-  version: "jupyter/Python3.7"
+      - [ "Python 3.9.5", "JupyterLab/3.0.16-GCCcore-10.3.0" ]
+#      - [ "Python 3.7.4 CUDA", "JupyterLab/1.2.5-fosscuda-2019b-Python-3.7.4 nodejs/12.16.1-GCCcore-8.3.0" ]
+  version: "jupyter/Python3.9"
   jupyterlab_switch:
     widget: "check_box"
     value: 1

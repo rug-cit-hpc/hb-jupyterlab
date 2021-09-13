@@ -11,3 +11,5 @@ script:
     - "<%= bc_num_slots.blank? ? 1 : bc_num_slots.to_i %>"
     - "--mem"
     - "<%= memory.blank? ? 2000 : memory.to_i * 1000 %>"
+    - "-t"
+    - "<%= wall_time %>"
