@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 
 <%-
-cuda = (context.node_type == "gpu") ? context.cuda_version : ""
 modules = (context.modules)
 wrapper = session.staged_root.join("launch_wrapper.sh")
 wrapper_log = session.staged_root.join("launch_wrapper.log")
 kernels = {
-    python36: {
-        display_name: "Python 3.6.4",
+    python39: {
+        display_name: "Python 3.9.5",
         language: "python",
         argv: [
             wrapper,
@@ -19,36 +18,6 @@ kernels = {
         ],
         env: {
             MODULES: "#{modules}"
-        }
-    },
-    python37: {
-        display_name: "Python 3.7.2",
-        language: "python",
-        argv: [
-            wrapper,
-            "python",
-            "-m",
-            "ipykernel_launcher",
-            "-f",
-            "{connection_file}"
-        ],
-        env: {
-            MODULES: "#{modules}"
-        }
-    },
-    python36cuda: {
-        display_name: "Python 3.6.4 CUDA",
-        language: "python",
-        argv: [
-            wrapper,
-            "python",
-            "-m",
-            "ipykernel_launcher",
-            "-f",
-            "{connection_file}"
-        ],
-        env: {
-            MODULES: "#{modules} TensorFlow/1.12.0-foss-2018a-Python-3.6.4 #{cuda}"
         }
     }
 }
@@ -63,8 +32,6 @@ echo "TTT - $(date)"
 
 # Clean the environment
 module purge
-# export JUPYTERLAB_DIR='/home/p233780/.local/jupyterlab'
-# echo $JUPYTERLAB_DIR
 
 # Create launcher wrapper
 echo "Creating launcher wrapper script..."
@@ -97,7 +64,6 @@ echo "TTT - $(date)"
 
 # Set working directory to notebook root directory
 cd "<%- context.start_folder -%>"
-#"${NOTEBOOK_ROOT}"
 echo ${PWD}
 
 # List available kernels for debugging purposes
@@ -110,4 +76,3 @@ echo "TTT - $(date)"
 echo $JUPYTER_CONFIG_PATH
 set -x
 jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
-# jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}"

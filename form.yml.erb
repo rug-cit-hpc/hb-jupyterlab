@@ -30,35 +30,25 @@ cluster: "peregrine"
 form:
   - modules
   - extra_jupyter_args
-  - node_type
-  - cuda_version
+#  - node_type
+#  - cuda_version
 #  - python_version
   - custom_queue
   - wall_time
-<<<<<<< HEAD
-  - bc_num_slots
-=======
   - num_cores
->>>>>>> d9d7131e921a007adc947c2575826d48b2461f26
   - version
-  - jupyterlab_switch
   - memory
   - start_folder
-  - reservation
   - bc_email_on_started
+  - jupyterlab_switch
 
 attributes:
+  jupyterlab_switch: '1'
   wall_time:
-<<<<<<< HEAD
     label: Walltime
     help: "Please give the wall time in the SLURM format, D-HH:MM:SS"
     widget: "text_field"
-=======
-    label: Wall time
-    help: "Please give the wall time in the SLURM format, D-HH:MM:SS"
-    widget: "text_field"
 
->>>>>>> d9d7131e921a007adc947c2575826d48b2461f26
   memory:
     label: Memory
     help: Amount of memory requested, in GB
@@ -67,13 +57,8 @@ attributes:
     min: 1
     max: 128
     step: 1
-<<<<<<< HEAD
-#  modules: "IPython/6.4.0-foss-2018a-Python-3.6.4"
-  extra_jupyter_args: "" # "--app-dir='/home/p233780/.local/jupyterlab'"
-=======
   extra_jupyter_args: ""
->>>>>>> d9d7131e921a007adc947c2575826d48b2461f26
-  node_type: 'gpu'
+#  node_type: 'regular'
 
   custom_queue:
     label: Partition
@@ -120,7 +105,7 @@ attributes:
 #      is required to make use of this functionality.
 #    options:
 #      - [ "CUDA/10.1.105", "CUDA/10.1.105-GCC-8.2.0-2.31.1" ]
-  cuda_version: "CUDA/10.1.105-GCC-8.2.0-2.31.1"
+#  cuda_version: "CUDA/10.1.105-GCC-8.2.0-2.31.1"
   modules:
     widget: "select"
     label: "Python Version"
@@ -129,27 +114,13 @@ attributes:
 #
 #      **If you select a GPU version, you also need to specify the GPU partition.**
     options:
-<<<<<<< HEAD
       - [ "Python 3.9.5", "JupyterLab/3.0.16-GCCcore-10.3.0" ]
 #      - [ "Python 3.7.4 CUDA", "JupyterLab/1.2.5-fosscuda-2019b-Python-3.7.4 nodejs/12.16.1-GCCcore-8.3.0" ]
   version: "jupyter/Python3.9"
-  jupyterlab_switch:
-    widget: "check_box"
-    value: 1
-    label: Use JupyterLab instead of Jupyter Notebook?
-    help: |
-      JupyterLab is the next generation of Jupyter with an IDE-like experience, and is completely compatible with existing Jupyter Notebooks.
-=======
-      - [ "Python 3.6.4", "IPython/6.4.0-foss-2018a-Python-3.6.4" ]
-      - [ "Python 3.6.4", "IPython/6.4.0-foss-2018a-Python-3.6.4" ]
-      - [ "Python 3.7.2", "IPython/7.7.0-foss-2019a-Python-3.7.2" ]
-      - [ "Python 3.7.4", "IPython/7.9.0-foss-2019b-Python-3.7.4" ]
-      - [ "Python 3.7.4 GPU", "IPython/7.9.0-fosscuda-2019b-Python-3.7.4" ]
-      - [ "Python 3.8.2", "IPython/7.15.0-foss-2020a-Python-3.8.2" ]
-      - [ "Python 3.9.5", "IPython/7.18.1-GCCcore-10.3.0" ]
-      - [ "R 3.6.1", "R/3.6.1-foss-2018a IPython/6.4.0-foss-2018a-Python-3.6.4 Pandoc/2.5" ]
-  version: "jupyter/Python3.7"
-  jupyterlab_switch: 0
->>>>>>> d9d7131e921a007adc947c2575826d48b2461f26
-  reservation: "xdmod-test"
+#  jupyterlab_switch:
+#    widget: "check_box"
+#    value: 1
+#    label: Use JupyterLab instead of Jupyter Notebook?
+#    help: |
+#      JupyterLab is the next generation of Jupyter with an IDE-like experience, and is completely compatible with existing Jupyter Notebooks.
 
