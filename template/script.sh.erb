@@ -1,26 +1,42 @@
 #!/usr/bin/env bash
 
 <%-
-modules = (context.modules)
-wrapper = session.staged_root.join("launch_wrapper.sh")
-wrapper_log = session.staged_root.join("launch_wrapper.log")
-kernels = {
-    python39: {
-        display_name: "Python 3.9.5",
-        language: "python",
-        argv: [
-            wrapper,
-            "python",
-            "-m",
-            "ipykernel_launcher",
-            "-f",
-            "{connection_file}"
-        ],
-        env: {
-            MODULES: "#{modules}"
+    python_version = case context.version
+                            when "JupyterLab/1.2.5-foss-2019b-Python-3.7.4 nodejs/12.16.1-GCCcore-8.3.0"
+                                "Python 3.7.4"
+                            when "JupyterLab/1.2.5-fosscuda-2019b-Python-3.7.4 nodejs/12.16.1-GCCcore-8.3.0"
+                                "Python 3.7.4 (GPU)"
+                            when "JupyterLab/3.0.16-GCCcore-10.3.0 nodejs/14.17.0-GCCcore-10.3.0"
+                                "Python 3.9.5"
+                            when "JupyterLab/3.0.16-GCCcore-10.3.0 nodejs/14.17.0-GCCcore-10.3.0 CUDA/11.4.1"
+                                "Python 3.9.5 (GPU)"
+                            when "JupyterLab/3.1.6-GCCcore-11.2.0 nodejs/14.17.6-GCCcore-11.2.0"
+                                "Python 3.9.6"
+                            when "JupyterLab/3.1.6-GCCcore-11.2.0 nodejs/14.17.6-GCCcore-11.2.0 CUDA/11.4.1"
+                                "Python 3.9.6 (GPU)"
+                            else
+                                "Python"
+                            end
+    modules = (context.version)
+    wrapper = session.staged_root.join("launch_wrapper.sh")
+    wrapper_log = session.staged_root.join("launch_wrapper.log")
+    kernels = {
+        python: {
+            display_name: python_version,
+            language: "python",
+            argv: [
+                wrapper,
+                "python",
+                "-m",
+                "ipykernel_launcher",
+                "-f",
+                "{connection_file}"
+            ],
+            env: {
+                MODULES: "#{modules}"
+            }
         }
     }
-}
 -%>
 
 echo "Starting main script..."
@@ -56,9 +72,25 @@ EOL
 chmod 700 "<%= wrapper %>"
 echo "TTT - $(date)"
 
+# Create custom Jupyter kernels
+echo "Creating custom Jupyter kernels..."
+export JUPYTER_PATH="${PWD}/share/jupyter"
+<%- kernels.each do |name, kernel| -%>
+<%- path = "${JUPYTER_PATH}/kernels/sys_#{name}" -%>
+mkdir -p "<%= path %>"
+cp "${PWD}/assets/<%= name.to_s.gsub(/\d/, "") %>"/* "<%= path %>/."
+(
+umask 077
+cat > "<%= path %>/kernel.json" << EOL
+<%= JSON.pretty_generate kernel %>
+EOL
+)
+<%- end -%>
+echo "TTT - $(date)"
+
 # Setup Jupyter environment
 module use $MODULEPATH_ROOT/project/ondemand
-module load <%= context.modules %>
+module load <%= modules %>
 module list
 echo "TTT - $(date)"
 
@@ -75,4 +107,4 @@ echo "TTT - $(date)"
 # Launch the Jupyter server
 echo $JUPYTER_CONFIG_PATH
 set -x
-jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
+jupyter lab --config="${CONFIG_FILE}"

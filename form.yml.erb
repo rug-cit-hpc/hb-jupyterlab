@@ -1,19 +1,4 @@
 <%-
-  cmd = "sinfo -ho %R"
-  begin
-    output, status = Open3.capture2e(cmd)
-    if status.success?
-      partitions = output.split("\n").map(&:strip).reject(&:blank?).sort
-    else
-      raise output
-    end
-  rescue => e
-    partitions = []
-    error = e.message.strip
-  end
--%>
-
-<%-
     paths = []
     paths << Pathname.new("/home/#{User.new.name}")
     paths << Pathname.new("/data/#{User.new.name}")
@@ -28,24 +13,65 @@
 cluster: "peregrine"
 
 form:
-  - modules
-  - extra_jupyter_args
-#  - node_type
-#  - cuda_version
-#  - python_version
-  - custom_queue
-  - wall_time
-  - num_cores
+  - node_type
   - version
+  - walltime
+  - num_cores
   - memory
   - start_folder
-  - bc_email_on_started
-  - jupyterlab_switch
+  - pg_email_on_started
+  - pg_email_user
 
 attributes:
-  jupyterlab_switch: '1'
-  wall_time:
-    label: Walltime
+  node_type:
+    label: Node Type
+    help: |
+      Select the type of node you would like to use. For information on the different options, please see 
+      [our wiki](https://wiki.hpc.rug.nl/peregrine/introduction/cluster_description#compute_nodes)
+    widget: select
+    options:
+      - [ "Regular", "regular" ]
+      - [ "Himem", "himem" ]
+      - [ "GPU (K40)", "gpuk40" ]
+      - [ "GPU (V100)", "gpuv100" ]
+      - [ "GELIFES", "gelifes" ]
+
+  version:
+    widget: "select"
+    label: "Python Version"
+    help: |
+      Select one of the Python versions from the dropdown.
+    options:
+      - [ "Python 3.7.4", "JupyterLab/1.2.5-foss-2019b-Python-3.7.4 nodejs/12.16.1-GCCcore-8.3.0",
+          data-option-for-node-type-gpuk40: false, 
+          data-option-for-node-type-gpuv100: false, 
+        ]
+      - [ "Python 3.7.4 (GPU)", "JupyterLab/1.2.5-fosscuda-2019b-Python-3.7.4 nodejs/12.16.1-GCCcore-8.3.0",
+          data-option-for-node-type-regular: false, 
+          data-option-for-node-type-himem: false,
+          data-option-for-node-type-gelifes: false, 
+        ]
+      - [ "Python 3.9.5", "JupyterLab/3.0.16-GCCcore-10.3.0 nodejs/14.17.0-GCCcore-10.3.0",
+          data-option-for-node-type-gpuk40: false, 
+          data-option-for-node-type-gpuv100: false, 
+        ]
+      - [ "Python 3.9.5 (GPU)", "JupyterLab/3.0.16-GCCcore-10.3.0 nodejs/14.17.0-GCCcore-10.3.0 CUDA/11.4.1",
+          data-option-for-node-type-regular: false, 
+          data-option-for-node-type-himem: false,
+          data-option-for-node-type-gelifes: false, 
+        ]
+      - [ "Python 3.9.6", "JupyterLab/3.1.6-GCCcore-11.2.0 nodejs/14.17.6-GCCcore-11.2.0",
+          data-option-for-node-type-gpuk40: false, 
+          data-option-for-node-type-gpuv100: false, 
+        ]
+      - [ "Python 3.9.6 (GPU)", "JupyterLab/3.1.6-GCCcore-11.2.0 nodejs/14.17.6-GCCcore-11.2.0 CUDA/11.4.1",
+          data-option-for-node-type-regular: false, 
+          data-option-for-node-type-himem: false,
+          data-option-for-node-type-gelifes: false, 
+        ]
+
+  walltime:
+    label: Wall time
     help: "Please give the wall time in the SLURM format, D-HH:MM:SS"
     widget: "text_field"
 
@@ -55,24 +81,8 @@ attributes:
     widget: 'number_field'
     value: 2
     min: 1
-    max: 128
     step: 1
-  extra_jupyter_args: ""
-#  node_type: 'regular'
 
-  custom_queue:
-    label: Partition
-    help: Please select a partition from the drop-down menu.
-  <%- if partitions.blank? -%>
-    widget: text_field
-  <%- else -%>
-    widget: select
-    options:
-    <%- partitions.each do |q| -%>
-      - [ "<%= q %>", "<%= q %>" ]
-    <%- end -%>
-  <%- end -%>
-  
   start_folder:
     label: Notebook root folder
     help: Where should the jupyter server start?
@@ -85,42 +95,27 @@ attributes:
       - [ "<%= q %>", "<%= q %>" ]
     <%- end -%>
   <%- end -%>
-    
+
   num_cores:
-    widget: "number_field"
-    label: "Number of cores"
+    widget: number_field
+    label: Number of CPU cores
     value: 1
     id: 'num_cores'
     help: |
-      Number of cores per node.
+      Select the number of CPU cores.
     min: 1
-    max: 48
     step: 1
 
-#  cuda_version:
-#    widget: "select"
-#    label: "CUDA Version"
-#    help: |
-#      CUDA is Nvidia's GPU-specific parallel computing framework. A GPU node
-#      is required to make use of this functionality.
-#    options:
-#      - [ "CUDA/10.1.105", "CUDA/10.1.105-GCC-8.2.0-2.31.1" ]
-#  cuda_version: "CUDA/10.1.105-GCC-8.2.0-2.31.1"
-  modules:
+  pg_email_on_started:
+    label: "Email notification"
+    help: |
+      Would you like to be notified via email when your session starts?
     widget: "select"
-    label: "Python Version"
-#    help: |
-#      Select one of the Python versions from the dropdown.
-#
-#      **If you select a GPU version, you also need to specify the GPU partition.**
     options:
-      - [ "Python 3.9.5", "JupyterLab/3.0.16-GCCcore-10.3.0" ]
-#      - [ "Python 3.7.4 CUDA", "JupyterLab/1.2.5-fosscuda-2019b-Python-3.7.4 nodejs/12.16.1-GCCcore-8.3.0" ]
-  version: "jupyter/Python3.9"
-#  jupyterlab_switch:
-#    widget: "check_box"
-#    value: 1
-#    label: Use JupyterLab instead of Jupyter Notebook?
-#    help: |
-#      JupyterLab is the next generation of Jupyter with an IDE-like experience, and is completely compatible with existing Jupyter Notebooks.
+      - ["No", "no", data-hide-pg-email-user: true]
+      - ["Yes", "yes"]
 
+  pg_email_user:
+    label: Email
+    help: "Your email for notifications"
+    widget: "text_field"
