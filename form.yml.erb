@@ -1,38 +1,34 @@
 <%-
     paths = []
-    paths << Pathname.new("/home/#{User.new.name}")
-    paths << Pathname.new("/data/#{User.new.name}")
     paths << Pathname.new("/scratch/#{User.new.name}")
 
-    projects = User.new.groups.map(&:name).grep(/^pg-./)
+    projects = User.new.groups.map(&:name).grep(/^hb-./)
 
-    paths.concat projects.map { |p| Pathname.new("/data/#{p}")  }
+    paths.concat projects.map { |p| Pathname.new("/scratch/#{p}")  }
 -%>
 
 ---
-cluster: "peregrine"
+cluster: "login1"
 
 form:
   - node_type
   - version
-  - walltime
+  - num_hours
   - num_cores
   - memory
   - start_folder
-  - pg_email_on_started
-  - pg_email_user
 
 attributes:
   node_type:
     label: Node Type
     help: |
       Select the type of node you would like to use. For information on the different options, please see 
-      [our wiki](https://wiki.hpc.rug.nl/peregrine/introduction/cluster_description#compute_nodes)
+      [our wiki](https://wiki.hpc.rug.nl/habrok/introduction/cluster_description#compute_nodes)
     widget: select
     options:
       - [ "Regular", "regular" ]
       - [ "Himem", "himem" ]
-      - [ "GPU (K40)", "gpuk40" ]
+      - [ "GPU (A100)", "gpua100" ]
       - [ "GPU (V100)", "gpuv100" ]
       - [ "GELIFES", "gelifes" ]
 
@@ -42,38 +38,24 @@ attributes:
     help: |
       Select one of the Python versions from the dropdown.
     options:
-      - [ "Python 3.7.4", "JupyterLab/1.2.5-foss-2019b-Python-3.7.4 nodejs/12.16.1-GCCcore-8.3.0",
-          data-option-for-node-type-gpuk40: false, 
-          data-option-for-node-type-gpuv100: false, 
+      - [ "Python 3.10.4", "JupyterLab/3.5.0-GCCcore-11.3.0 nodejs/16.15.1-GCCcore-11.3.0",
+          data-option-for-node-type-gpua100: false, 
+          data-option-for-node-type-gpuv100: false
         ]
-      - [ "Python 3.7.4 (GPU)", "JupyterLab/1.2.5-fosscuda-2019b-Python-3.7.4 nodejs/12.16.1-GCCcore-8.3.0",
-          data-option-for-node-type-regular: false, 
-          data-option-for-node-type-himem: false,
-          data-option-for-node-type-gelifes: false, 
-        ]
-      - [ "Python 3.9.5", "JupyterLab/3.0.16-GCCcore-10.3.0 nodejs/14.17.0-GCCcore-10.3.0",
-          data-option-for-node-type-gpuk40: false, 
-          data-option-for-node-type-gpuv100: false, 
-        ]
-      - [ "Python 3.9.5 (GPU)", "JupyterLab/3.0.16-GCCcore-10.3.0 nodejs/14.17.0-GCCcore-10.3.0 CUDA/11.4.1",
-          data-option-for-node-type-regular: false, 
-          data-option-for-node-type-himem: false,
-          data-option-for-node-type-gelifes: false, 
-        ]
-      - [ "Python 3.9.6", "JupyterLab/3.1.6-GCCcore-11.2.0 nodejs/14.17.6-GCCcore-11.2.0",
-          data-option-for-node-type-gpuk40: false, 
-          data-option-for-node-type-gpuv100: false, 
-        ]
-      - [ "Python 3.9.6 (GPU)", "JupyterLab/3.1.6-GCCcore-11.2.0 nodejs/14.17.6-GCCcore-11.2.0 CUDA/11.4.1",
+      - [ "Python 3.10.4 (GPU)", "JupyterLab/3.5.0-GCCcore-11.3.0 nodejs/16.15.1-GCCcore-11.3.0 CUDA/11.7.0",
           data-option-for-node-type-regular: false, 
           data-option-for-node-type-himem: false,
           data-option-for-node-type-gelifes: false, 
         ]
 
-  walltime:
-    label: Wall time
-    help: "Please give the wall time in the SLURM format, D-HH:MM:SS"
-    widget: "text_field"
+  num_hours:
+    label: Number of hours
+    widget: 'number_field'
+    help: "Please give the maximum wall time in hours"
+    value: 2
+    min: 1
+    step: 1
+    max: 12
 
   memory:
     label: Memory
@@ -105,17 +87,4 @@ attributes:
       Select the number of CPU cores.
     min: 1
     step: 1
-
-  pg_email_on_started:
-    label: "Email notification"
-    help: |
-      Would you like to be notified via email when your session starts?
-    widget: "select"
-    options:
-      - ["No", "no", data-hide-pg-email-user: true]
-      - ["Yes", "yes"]
-
-  pg_email_user:
-    label: Email
-    help: "Your email for notifications"
-    widget: "text_field"
+    max: 128
